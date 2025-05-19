@@ -15,18 +15,6 @@ function showSection(sectionId) {
         targetSection.classList.add('active');
     } else {
         console.error('Неизвестная или отсутствующая секция:', sectionId);
-        const defaultSectionId = 'users-view';
-
-        if (sectionId !== defaultSectionId) {
-             console.warn(`Попытка вернуться к секции по умолчанию: ${defaultSectionId}`);
-             loadUsers(); 
-        } else {
-            console.error(`Критическая ошибка: Секция по умолчанию (${defaultSectionId}) не найдена в DOM`);
-            usersDiv.innerHTML = '';
-            albumsDiv.innerHTML = '';
-            photosDiv.innerHTML = '';
-            document.body.innerHTML = '<div style="text-align:center; padding: 50px; color: red;"><h1>Ошибка загрузки</h1><p>Не удалось инициализировать приложение. Пожалуйста, убедитесь, что все необходимые элементы HTML присутствуют и попробуйте обновить страницу.</p></div>';
-        }
     }
 }
 
@@ -55,11 +43,6 @@ async function loadUsers() {
 
     if (users === null) {
         usersDiv.innerHTML = '<p>Не удалось загрузить пользователей. Попробуйте позже.</p>';
-        return;
-    }
-
-    if (users.length === 0) {
-        usersDiv.innerHTML = '<p>Список пользователей пуст.</p>';
         return;
     }
 
@@ -93,13 +76,6 @@ async function loadAlbums(userId) {
         return;
     }
 
-    if (albums.length === 0) {
-         const emptyMsg = document.createElement('p');
-         emptyMsg.textContent = 'Нет альбомов для этого пользователя.';
-         albumsDiv.appendChild(emptyMsg); 
-        return;
-    }
-
     albums.forEach(album => {
         const albumElement = document.createElement('div');
         albumElement.textContent = album.title;
@@ -128,13 +104,6 @@ async function loadPhotos(albumId, userId) {
          const errorMsg = document.createElement('p');
          errorMsg.textContent = 'Не удалось загрузить фотографии. Попробуйте позже.';
          photosDiv.appendChild(errorMsg); 
-        return;
-    }
-
-    if (photos.length === 0) {
-         const emptyMsg = document.createElement('p');
-         emptyMsg.textContent = 'Нет фотографий в этом альбоме.';
-         photosDiv.appendChild(emptyMsg); 
         return;
     }
 
